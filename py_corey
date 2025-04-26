@@ -312,6 +312,133 @@ print(isSubclass(Manager, Developer))    # false
 print(isSubclass(Manager, Employee))     # true
 print(isSubclass(Developer, Employee))   # true  
 
+### lec 44 ### Python OOP Tutorial 5: Special (Magic/Dunder) Methods ###
+### https://www.youtube.com/watch?v=3ohzBxoFHAY&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=44 ###
+
+class Employee:
+
+    raise_amt = 1.04
+
+    def __init__(self, first, last, pay):
+        self.first = first
+        self.last = last
+        self.email = first + '.' + last + '@email.com'
+        self.pay = pay
+
+    def fullname(self):
+        return '{} {}'.format(self.first, self.last)
+
+    def apply_raise(self):
+        self.pay = int(self.pay * self.raise_amt)
+
+    def __repr__(self):
+        return "Employee('{}', '{}', {})".format(self.first, self.last, self.pay)
+
+    def __str__(self):
+        return '{} - {}'.format(self.fullname(), self.email)
+
+    def __add__(self, other):
+        return self.pay + other.pay
+
+    def __len__(self):
+        return len(self.fullname())
+
+
+emp_1 = Employee('Corey', 'Schafer', 50000)
+emp_2 = Employee('Test', 'Employee', 60000)
+
+# print(emp_1 + emp_2)
+
+print(len(emp_1))
+
+# will print obj if __ref__ and __str__ is not there
+# print(emp_1)
+
+# if __str__ is not there __ref__ is called
+print(emp_1)
+
+print(repr(emp_1))
+print(str(emp_1))
+
+print(emp_1.__repr__())
+print(emp_1.__str__())
+
+print(1 + 2)
+print('a' + 'b')
+
+print(int.__add__(1,2))
+print(str.__add__('a','b'))
+
+print(emp_1 + emp_2)
+
+
+https://www.youtube.com/redirect?event=video_description&redir_token=QUFFLUhqazB0eTMzRzVKZGlDelFGa3BMTk5kWUloczFBZ3xBQ3Jtc0ttRmt6NzRGSzRic1lNUktSOFkwNElLSDBDTXZ0eTMtN193ZXIxR3ZON3NtWW8wVXRUdHVSVHA5NDVjV0dCNTEzQmtrVTRWbHd1dEtGNkdpQWRFTW1NbWV1QVVRd1J2U2o4RXBHZXVER3lIb3lsYjZvbw&q=https%3A%2F%2Fdocs.python.org%2F3%2Freference%2Fdatamodel.html%23special-method-names&v=3ohzBxoFHAY
+
+print(len('test'))
+print('test'.__len__())
+
+print(len(emp_1))
+
+### lec 45 ### Python OOP Tutorial 6: Property Decorators - Getters, Setters, and Deleters ###
+### https://www.youtube.com/watch?v=jCzT9XFZ5bw&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=45 ###
+
+class Employee:
+
+    def __init__(self, first, last):
+        self.first = first
+        self.last = last
+
+    @property
+    def email(self):
+        return '{}.{}@email.com'.format(self.first, self.last)
+
+    @property
+    def fullname(self):
+        return '{} {}'.format(self.first, self.last)
+    
+    @fullname.setter
+    def fullname(self, name):
+        first, last = name.split(' ')
+        self.first = first
+        self.last = last
+    
+    @fullname.deleter
+    def fullname(self):
+        print('Delete Name!')
+        self.first = None
+        self.last = None
+
+
+emp_1 = Employee('John', 'Smith')
+emp_1.fullname = "Corey Schafer"
+
+print(emp_1.first)
+print(emp_1.email)
+# previously only name can only chnged to change emal  do above method
+# print(emp_1.fullname())
+print(emp_1.fullname)
+
+del emp_1.fullname
+
+# previous problemon below code
+emp_1.first = 'shel'
+print(emp_1.first)
+print(emp_1.email)
+print(emp_1.fullname())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
